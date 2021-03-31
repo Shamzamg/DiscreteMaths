@@ -1,5 +1,7 @@
 package TP1;
 
+import java.util.Random;
+
 public class Main {
 
 
@@ -57,18 +59,16 @@ public class Main {
     }
 
     public static void question5(){
+        System.out.println("Taux d'erreur Fermat en % :");
         for(int i=1;i<=30;i++){
             double nb = 0;
-            double premNaif = 0;
-            double premFermat = 0;
+            double erreur = 0;
             for(int j=(int)Math.pow(2,i);j<(int)Math.pow(2,i+1); j++){
-                if(PrimaliteNaif(j))
-                    premNaif++;
-                if(TestFermat(j))
-                    premFermat++;
+                if(PrimaliteNaif(j) != TestFermat(j))
+                    erreur++;
                 nb++;
             }
-            System.out.println(100*(1 - ((premNaif/nb) / (premFermat/nb))));
+            System.out.println("i = " + i + "; erreur = " + (erreur/nb)*100 + " %");
         }
     }
 
@@ -94,6 +94,21 @@ public class Main {
         }
     }
 
+    //renvoie un entier premier de k bits choisi aléatoirement
+    //c'est à dire un entier premier aléatoire dans [2^(k-1); 2^k - 1]
+    public static void GenPremiers(int k){
+
+        Random r = new Random();
+        int min = (int)Math.pow(2,k-1);
+        int max = (int) Math.pow(2,k) - 1;
+
+        int premier = r.nextInt((max - min) + 1) + min;
+        while(!PrimaliteNaif(premier))
+            premier = r.nextInt((max - min) + 1) + min;
+
+        System.out.println(premier);
+    }
+
     public static void main(String[] args) {
 
         /*
@@ -116,10 +131,13 @@ public class Main {
         question4();
 
         //taux d'erreur du TestFermat, à partir de PrimaliteNaif
-        question5();*/
+        question5();
 
         //compare asymptotiquement l'efficacité de TestFermat et PrimaliteNaif
-        question6();
+        question6();*/
+
+        //retourne un entier premier de k bits choisi aléatoirement
+        GenPremiers(30);
     }
 
 }
