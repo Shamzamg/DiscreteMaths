@@ -30,17 +30,12 @@ public class Main {
     }
 
     public static boolean TestFermat(int n){
-        if(n <= 2)
+        if(n == 2)
             return true;
         return (Math.pow(2,(n - 1))%n == 1);
     }
 
     public static boolean PrimaliteNaif(int n){
-
-        if(n <= 2){
-            return true;
-        }
-
         for(int i=2;i<n;i++){
             if(n%i == 0)
                 return false;
@@ -78,7 +73,25 @@ public class Main {
     }
 
     public static void question6(){
+        //on prend des puissances de 2 "relativement" élevées
 
+        for(int i=15;i<=17;i++){
+            long startNaif, endNaif, startFermat, endFermat;
+            long totalNaif = 0, totalFermat = 0;
+            for(int j=(int)Math.pow(2,i);j<(int)Math.pow(2,i+1); j++){
+                startNaif = System.currentTimeMillis();
+                PrimaliteNaif(j);
+                endNaif = System.currentTimeMillis();
+
+                startFermat = System.currentTimeMillis();
+                TestFermat(j);
+                endFermat = System.currentTimeMillis();
+
+                totalNaif += (endNaif - startNaif);
+                totalFermat += (endFermat - startFermat);
+            }
+            System.out.println("Pour i=" + i + " , temps total Naif: " + totalNaif + " ms;  temps total Fermat: " + totalFermat + " ms");
+        }
     }
 
     public static void main(String[] args) {
@@ -105,6 +118,7 @@ public class Main {
         //taux d'erreur du TestFermat, à partir de PrimaliteNaif
         question5();*/
 
+        //compare asymptotiquement l'efficacité de TestFermat et PrimaliteNaif
         question6();
     }
 
