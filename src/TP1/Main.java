@@ -30,16 +30,60 @@ public class Main {
     }
 
     public static boolean TestFermat(int n){
+        if(n <= 2)
+            return true;
         return (Math.pow(2,(n - 1))%n == 1);
     }
 
-    public static int TestPrimaliteNaif(){
+    public static boolean PrimaliteNaif(int n){
 
-        return 0;
+        if(n <= 2){
+            return true;
+        }
+
+        for(int i=2;i<n;i++){
+            if(n%i == 0)
+                return false;
+        }
+        return true;
+    }
+
+    public static void question4(){
+        for(int i=1;i<=30;i++){
+            double nb = 0;
+            double prem = 0;
+            for(int j=(int)Math.pow(2,i);j<(int)Math.pow(2,i+1); j++){
+                if(PrimaliteNaif(j))
+                    prem++;
+                nb++;
+            }
+            System.out.println(prem/nb);
+        }
+    }
+
+    public static void question5(){
+        for(int i=1;i<=30;i++){
+            double nb = 0;
+            double premNaif = 0;
+            double premFermat = 0;
+            for(int j=(int)Math.pow(2,i);j<(int)Math.pow(2,i+1); j++){
+                if(PrimaliteNaif(j))
+                    premNaif++;
+                if(TestFermat(j))
+                    premFermat++;
+                nb++;
+            }
+            System.out.println(100*(1 - ((premNaif/nb) / (premFermat/nb))));
+        }
+    }
+
+    public static void question6(){
+
     }
 
     public static void main(String[] args) {
 
+        /*
         //Euclide etendu
         int retTab [] = EuclideEtendu(6497,3139);
         System.out.println(retTab[0] + " " + retTab[1] + " " + retTab[2]);
@@ -48,8 +92,20 @@ public class Main {
         System.out.println(ExpMod(4,13,497));
 
         //Test primalite Fermat antique
-        System.out.println(TestFermat(6));
+        System.out.println(TestFermat(5));
 
+        //Test primalite naif
+        System.out.println(PrimaliteNaif(5));
+
+        //proportions de nombres premiers sur N inter (2^i; 2^(i+1)) pour i=1,...,30
+        //on constate que cette proportion décroit au fur et à mesure que i augmente
+        //les calculs sont égalements de plus en plus longs
+        question4();
+
+        //taux d'erreur du TestFermat, à partir de PrimaliteNaif
+        question5();*/
+
+        question6();
     }
 
 }
