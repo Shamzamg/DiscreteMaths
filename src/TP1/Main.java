@@ -109,6 +109,44 @@ public class Main {
         System.out.println(premier);
     }
 
+    //question 8
+    //retourne la factorisation de n = pq produit de deux nombres premiers
+    public static void PhiToFact(int n, int phi_n){
+
+    }
+
+    //question 9
+
+    //fonction Phi qui renvoie le nombre d'entiers dans [1, n] premiers avec n
+    public static int Phi(int n){
+        int phi_n = n;
+
+        for(int i=1;i<=n;i++){
+            for(int j=2; j <= i; j++)
+            {
+                if(n%j==0 && i%j==0) {
+                    phi_n--;
+                    break;
+                };
+            }
+        }
+        return phi_n;
+    }
+
+
+    //vérifie que Phi(pq) = (p-1)(q-1) lorsque p, q sont premiers
+    public static boolean VerifPhi(int p, int q){
+        //si p est premier
+        if(PrimaliteNaif(p)){
+            //si q est également premier
+            if(PrimaliteNaif(q)){
+                return (Phi(p*q) == (p-1)*(q-1));
+            }
+        }
+
+        return false;
+    }
+
     public static void main(String[] args) {
 
         /*
@@ -136,8 +174,9 @@ public class Main {
         //compare asymptotiquement l'efficacité de TestFermat et PrimaliteNaif
         question6();*/
 
-        //retourne un entier premier de k bits choisi aléatoirement
-        GenPremiers(30);
+        //retourne un entier premier de k bits choisi aléatoirement (Question 7)
+        //GenPremiers(4);
+        System.out.print(VerifPhi(3,5));
     }
 
 }
