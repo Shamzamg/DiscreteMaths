@@ -17,24 +17,29 @@ public class Main {
         return retTab;
     }
 
-    public static int ExpMod(int a, int k, int n){
-
-        int p;
-        for(p=1;k>0;k/=2){
-
-            if(k%2 != 0) p = (p*a)%n;
-
-            a = (a*a)%n;
-
+    public static int InverseMod(int a, int b){
+        int tab [] = EuclideEtendu(a, b);
+        try{
+            return Math.floorMod(tab[1],b);
+        } catch(Exception e){
+            System.out.println("pas inversible !");
         }
+        return 0;
+    }
 
+    public static long ExpMod(long a, long k, long n){
+        long p;
+        for(p=1;k>0;k/=2){
+            if(k%2 != 0) p=(p*a)%n;
+            a = (a*a)%n;
+        }
         return p;
     }
 
     public static boolean TestFermat(int n){
-        if(n == 2)
-            return true;
-        return (Math.pow(2,(n - 1))%n == 1);
+        if(n < 2) return false;
+        if(n == 2) return true;
+        return ExpMod(2, n-1, n) == 1;
     }
 
     public static boolean PrimaliteNaif(int n){
@@ -112,7 +117,26 @@ public class Main {
     //question 8
     //retourne la factorisation de n = pq produit de deux nombres premiers
     public static void PhiToFact(int n, int phi_n){
-
+        int a = -1;
+        int b = n + 1 - phi_n;
+        int c = -n;
+        int delta = b*b - 4*a*c;
+        if (delta > 0) {
+            int sol1 = (int) ((-b - Math.sqrt(delta)) / (2*a));
+            int sol2 = (int) ((-b + Math.sqrt(delta)) / (2*a));
+            System.out.println("delta = " + delta);
+            System.out.println(sol1 + " * " + sol2);
+            System.out.println("= " + sol1 * sol2);
+            if (sol1 * sol2 == n) System.out.println("OK");
+            else System.err.println("Mauvais résultat");
+        } else if (delta == 0) {
+            int sol = -b / (2*a);
+            System.err.println("delta = 0");
+            System.err.println(sol);
+        } else {
+            System.err.println("delta = " + delta);
+            System.out.println("1 * " + n);
+        }
     }
 
     //question 9
@@ -144,16 +168,29 @@ public class Main {
             }
         }
 
+        //si p ou q n'est pas premier
         return false;
+    }
+
+    //question 10
+
+
+    //question 11
+    public static long A1(int n1, int n2, int n3, int e, int M1, int M2, int M3){
+        int d = InverseMod(e, Phi(n1));
+        long m = ExpMod(M1,d,n1);
+
+        return m;
     }
 
     public static void main(String[] args) {
 
+
+        question5();
         /*
         //Euclide etendu
         int retTab [] = EuclideEtendu(6497,3139);
         System.out.println(retTab[0] + " " + retTab[1] + " " + retTab[2]);
-
         //Exponentielle modulaire
         System.out.println(ExpMod(4,13,497));
 
@@ -176,7 +213,11 @@ public class Main {
 
         //retourne un entier premier de k bits choisi aléatoirement (Question 7)
         //GenPremiers(4);
-        System.out.print(VerifPhi(3,5));
+        //System.out.print(VerifPhi(3,5));
+        //System.out.print(Phi(15));
+
+        //on prend m = 21 (puisque 98=21^{3} mod 187)
+        //System.out.print(A1(187, 0, 0, 3, 98, 0, 0));
     }
 
 }
